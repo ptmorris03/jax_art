@@ -1,6 +1,5 @@
 from collections import OrderedDict
 from dataclasses import dataclass
-from typing import Optional, Union, Tuple, Callable, Any, Iterable
 
 import jax
 import jax.numpy as jnp
