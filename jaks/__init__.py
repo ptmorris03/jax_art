@@ -1,2 +1,2 @@
-import .modules as nn
+import modules as nn
 import utils
