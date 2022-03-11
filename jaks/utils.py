@@ -17,3 +17,8 @@ def log_loss(predictions: jnp.ndarray, labels: jnp.ndarray) -> jnp.ndarray:
 
 def accuracy(predictions: jnp.ndarray, labels: jnp.ndarray) -> jnp.ndarray:
     return predictions.argmax(axis=-1) == labels
+
+def sgd(params: OrderedDict, grads: OrderedDict, lr: float) -> OrderedDict:
+    def map_fn(param, grad):
+        return param - learning_rate * grad
+    return jax.tree_multimap(map_fn, params, grads)
