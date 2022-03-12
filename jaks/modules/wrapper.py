@@ -19,13 +19,14 @@ class Residual(Module):
 
 
 @dataclass
-class ResidualStack(Module):
+class ResNetStack(Module):
     module: Module
     depth: int
 
     def modules(self):
+        residual_layer = Residual(self.module)
         for layer in range(1, self.depth + 1):
-            yield F"layer{layer}", module.copy()
+            yield F"layer{layer}", residual
 
 
 @dataclass
