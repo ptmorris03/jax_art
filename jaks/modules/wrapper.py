@@ -26,7 +26,7 @@ class ResNetStack(Module):
     def modules(self):
         residual_layer = Residual(self.module)
         for layer in range(1, self.depth + 1):
-            yield F"layer{layer}", residual
+            yield F"layer{layer}", residual_layer
 
 
 @dataclass
