@@ -13,6 +13,6 @@ setuptools.setup(
         "Bug Tracker": "https://github.com/ptmorris03/jax_workbench/issues"
     },
     license='to kill',
-    packages=['jaks'],
+    packages=['jaks, jaks.modules'],
     install_requires=[],
 )
