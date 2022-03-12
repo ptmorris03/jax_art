@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
 from .core import Module
-from .nonlin import RELU
-from .transform import Rotate, Translate, Scale, ZScore
+from .nonlin import RELU, ZScore
+from .transform import Rotate, Translate, Scale
 
 
 @dataclass
