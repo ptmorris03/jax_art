@@ -19,6 +19,16 @@ class Residual(Module):
 
 
 @dataclass
+class ResidualStack(Module):
+    module: Module
+    depth: int
+
+    def modules(self):
+        for layer in range(1, self.depth + 1):
+            yield F"layer{layer}", module.copy()
+
+
+@dataclass
 class Loop(Module):
     module: Module
     iterations: int
