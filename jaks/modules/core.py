@@ -47,7 +47,7 @@ class Module:
         def forward(self, params, *args, **kwargs):
             return self(params, *args, **kwargs)
         if batch:
-            arg_count = len(inspect.signature(self.forward).parameters) - 2
+            arg_count = len(inspect.signature(self.forward).parameters) - 1
             in_axes = [None] + [0] * arg_count
             forward = jax.vmap(forward, in_axes=in_axes)
         return forward
