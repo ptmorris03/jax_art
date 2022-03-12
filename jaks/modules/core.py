@@ -3,7 +3,6 @@ import jax.numpy as jnp
 from jax.random import PRNGKey
 
 from collections import OrderedDict
-from copy import deepcopy
 from typing import Tuple
 
 
@@ -41,6 +40,3 @@ class Module:
         for name in self._module_order:
             x = getattr(self, name)(params, x)
         return x
-
-    def copy(self):
-        return deepcopy(self)
