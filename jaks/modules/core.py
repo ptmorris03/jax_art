@@ -3,6 +3,7 @@ import jax.numpy as jnp
 from jax.random import PRNGKey
 
 from collections import OrderedDict
+import inspect
 from typing import Tuple
 
 
@@ -40,3 +41,13 @@ class Module:
         for name in self._module_order:
             x = getattr(self, name)(params, x)
         return x
+
+    def compile(self, batch: bool = True):
+        @jax.jit
+        def forward(self, params, *args, **kwargs):
+            return self(params, *args, **kwargs)
+        if batch:
+            arg_count = len(inspect.signature(self.forward).parameters) - 2
+            in_axes = [None] + [0] * arg_count
+            forward = jax.vmap(forward, in_axes=in_axes)
+        return forward
