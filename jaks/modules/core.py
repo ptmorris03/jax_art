@@ -44,7 +44,7 @@ class Module:
 
     def compile(self, batch: bool = True):
         @jax.jit
-        def forward(self, params, *args, **kwargs):
+        def forward(params, *args, **kwargs):
             return self(params, *args, **kwargs)
         if batch:
             arg_count = len(inspect.signature(self.forward).parameters) - 1
