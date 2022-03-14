@@ -85,7 +85,7 @@ class MNISTPatches(nn.Module):
 
 def load_dataset(batch_size: int, dataset: str = "mnist"):
     (ds_train, ds_test), ds_info = tfds.load(
-        dataset,
+        name=dataset,
         split=['train', 'test'],
         shuffle_files=True,
         as_supervised=True,
