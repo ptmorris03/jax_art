@@ -1,3 +1,4 @@
 matplotlib
 tensorflow
 tensorflow-datasets
+tqdm
