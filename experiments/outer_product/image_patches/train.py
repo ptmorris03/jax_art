@@ -15,6 +15,8 @@ import json
 from pathlib import Path
 from typing import Iterable, Tuple, Union
 
+from .datasets import mnist
+
 
 @dataclass
 class MLP2(nn.Module):
@@ -83,32 +85,16 @@ class MNISTPatches(nn.Module):
         yield "out", nn.Linear(self.dims, 10)
 
 
-def load_dataset(batch_size: int, dataset: str = "mnist"):
-    (ds_train, ds_test), ds_info = tfds.load(
-        name=dataset,
-        split=['train', 'test'],
-        shuffle_files=True,
-        as_supervised=True,
-        with_info=True,
-    )
+def load_dataset(batch_size: int):
+    train_images, train_labels, test_images, test_labels = mnist(permute_train=True)
+    def train_data():
+        for i in range(0, train_images.shape[0], batch_size):
+            yield train_images[i:i+batch_size], train_labels[i:i+batch_size]
+    def test_data():
+        for i in range(0, test_images.shape[0], batch_size):
+            yield test_images[i:i+batch_size], test_labels[i:i+batch_size]
 
-    def normalize_img(image, label):
-        return tf.cast(image, tf.float32) / 255., label
-
-    ds_train = ds_train.map(
-        normalize_img, num_parallel_calls=tf.data.AUTOTUNE)
-    ds_train = ds_train.cache()
-    ds_train = ds_train.shuffle(ds_info.splits['train'].num_examples)
-    ds_train = ds_train.batch(batch_size)
-    ds_train = ds_train.prefetch(tf.data.AUTOTUNE)
-
-    ds_test = ds_test.map(
-        normalize_img, num_parallel_calls=tf.data.AUTOTUNE)
-    ds_test = ds_test.batch(batch_size)
-    ds_test = ds_test.cache()
-    ds_test = ds_test.prefetch(tf.data.AUTOTUNE)
-
-    return ds_train, ds_test
+    return train_data, test_data
 
 
 def plot_compare(loss1, acc1, loss2, act2):
@@ -161,7 +147,7 @@ def train(
     losses = [0]
     accs = [0]
     for epoch in range(epochs):
-        pbar = tqdm(test_data, F"epoch {epoch} train", leave=False)
+        pbar = tqdm(train_data(), F"epoch {epoch} train", leave=False)
         loss = 0
         for i, (x, y) in enumerate(pbar):
             x = jnp.asarray(x).reshape(x.shape[0], -1)
@@ -172,7 +158,7 @@ def train(
             desc = F"epoch {epoch} train loss: {losses[epoch]:.06f}"
             pbar.set_description(desc)
 
-        pbar = tqdm(test_data, F"epoch {epoch} test", leave=False)
+        pbar = tqdm(test_data(), F"epoch {epoch} test", leave=False)
         acc = 0
         for i, (x, y) in enumerate(pbar):
             x = jnp.asarray(x).reshape(x.shape[0], -1)
