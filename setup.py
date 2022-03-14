@@ -14,5 +14,5 @@ setuptools.setup(
     },
     license='to kill',
     packages=['jaks', 'jaks.modules'],
-    install_requires=['matplotlib', 'numpy', 'tensorflow', 'tensorflow-datasets', 'tqdm', 'typer'],
+    install_requires=['matplotlib', 'numpy', 'tensorflow', 'tfds-nightly', 'tqdm', 'typer'],
 )
