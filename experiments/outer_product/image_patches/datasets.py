@@ -39,12 +39,12 @@ def mnist_raw():
     def parse_labels(filename):
         with gzip.open(filename, "rb") as fh:
             _ = struct.unpack(">II", fh.read(8))
-        return np.array(array.array("B", fh.read()), dtype=np.uint8)
+            return np.array(array.array("B", fh.read()), dtype=np.uint8)
 
     def parse_images(filename):
         with gzip.open(filename, "rb") as fh:
             _, num_data, rows, cols = struct.unpack(">IIII", fh.read(16))
-        return np.array(array.array("B", fh.read()),
+            return np.array(array.array("B", fh.read()),
                         dtype=np.uint8).reshape(num_data, rows, cols)
 
     for filename in ["train-images-idx3-ubyte.gz", "train-labels-idx1-ubyte.gz",
