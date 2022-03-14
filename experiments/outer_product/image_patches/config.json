@@ -1,0 +1,10 @@
+{
+    "dims": 32,
+    "patches": 10,
+    "layers": 1,
+    "hidden_scale": 4,
+    "batch_size": 128,
+    "epochs": 10,
+    "learning_rate": 1e-1,
+    "random_seed": 0
+}
