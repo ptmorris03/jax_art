@@ -15,7 +15,7 @@ import json
 from pathlib import Path
 from typing import Iterable, Tuple, Union
 
-from .datasets import mnist
+from datasets import mnist
 
 
 @dataclass
