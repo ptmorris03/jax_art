@@ -13,7 +13,7 @@ import typer
 from dataclasses import dataclass
 import json
 from pathlib import Path
-from typing import Iterable, Union
+from typing import Iterable, Tuple, Union
 
 
 @dataclass
