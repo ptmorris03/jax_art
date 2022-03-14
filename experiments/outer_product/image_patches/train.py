@@ -10,6 +10,7 @@ import tensorflow_datasets as tfds
 from tqdm import tqdm
 import typer
 
+from dataclasses import dataclass
 import json
 from pathlib import Path
 from typing import Iterable, Union
