@@ -98,7 +98,7 @@ def load_dataset(batch_size: int):
 
 
 def plot_compare(loss1, acc1, loss2, act2):
-    epochs = np.arange(1, len(loss) + 1)
+    epochs = np.arange(1, len(loss1) + 1)
     plt.subplot(1, 2, 1)
     plt.plot(epochs, loss1, label="Normal Patches")
     plt.plot(epochs, loss2, label="Outer Product")
