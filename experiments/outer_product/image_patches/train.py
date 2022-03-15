@@ -113,7 +113,7 @@ def plot_compare(loss1, acc1, loss2, acc2, res=1440, dpi=120, title=""):
 
     inches = res / dpi
     plt.gcf().set_size_inches(inches * 16 / 9, inches)
-    plt.gcf().set_title(title)
+    plt.suptitle(title)
     plt.savefig("results.png", dpi=dpi)
 
 
