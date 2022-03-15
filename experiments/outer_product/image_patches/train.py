@@ -97,7 +97,7 @@ def load_dataset(batch_size: int):
     return train_data, test_data
 
 
-def plot_compare(loss1, acc1, loss2, act2):
+def plot_compare(loss1, acc1, loss2, acc2):
     epochs = np.arange(1, len(loss1) + 1)
     plt.subplot(1, 2, 1)
     plt.plot(epochs, loss1, label="Normal Patches")
