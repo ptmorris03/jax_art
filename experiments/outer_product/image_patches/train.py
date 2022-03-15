@@ -111,7 +111,7 @@ def plot_compare(loss1, acc1, loss2, acc2):
     plt.gca().set_xlabel("Epochs")
     plt.gca().set_ylabel("Accuracy")
 
-    plt.gcf().set_size_inches(32, 18)
+    plt.gcf().set_size_inches(21.33333333, 12)
     plt.savefig("results.png", dpi=120)
 
 
