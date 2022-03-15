@@ -147,8 +147,8 @@ def train(
 
     losses = []
     accs = []
-    for epoch in range(epochs):
-        pbar = tqdm(train_data(), F"epoch {epoch} train", leave=False)
+    for epoch in tqdm(range(epochs), "epoch"):
+        pbar = tqdm(train_data(), "train", leave=False)
         loss = 0
         losses.append(loss)
         for i, (x, y) in enumerate(pbar):
@@ -160,7 +160,7 @@ def train(
             desc = F"epoch {epoch} train loss: {losses[epoch]:.06f}"
             pbar.set_description(desc)
 
-        pbar = tqdm(test_data(), F"epoch {epoch} test", leave=False)
+        pbar = tqdm(test_data(), "test", leave=False)
         acc = 0
         accs.append(acc)
         for i, (x, y) in enumerate(pbar):
