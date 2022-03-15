@@ -6,5 +6,6 @@
     "batch_size": 128,
     "epochs": 10,
     "learning_rate": 1e-1,
-    "random_seed": 0
+    "random_seed": 0,
+    "plot_resolution": 1440
 }
