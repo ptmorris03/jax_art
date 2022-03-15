@@ -97,7 +97,7 @@ def load_dataset(batch_size: int):
     return train_data, test_data
 
 
-def plot_compare(loss1, acc1, loss2, acc2):
+def plot_compare(loss1, acc1, loss2, acc2, res=1440, dpi=120):
     epochs = np.arange(1, len(loss1) + 1)
     plt.subplot(1, 2, 1)
     plt.plot(epochs, loss1, label="Normal Patches")
@@ -111,8 +111,9 @@ def plot_compare(loss1, acc1, loss2, acc2):
     plt.gca().set_xlabel("Epochs")
     plt.gca().set_ylabel("Accuracy")
 
-    plt.gcf().set_size_inches(21.33333333, 12)
-    plt.savefig("results.png", dpi=120)
+    inches = res / dpi
+    plt.gcf().set_size_inches(inches * 16 / 9, inches)
+    plt.savefig("results.png", dpi=dpi)
 
 
 def train(
@@ -205,7 +206,7 @@ def run(config: Path):
         cfg["random_seed"]
     )
 
-    plot_compare(loss1, acc1, loss2, acc2)
+    plot_compare(loss1, acc1, loss2, acc2, res=cfg["plot_resolution"])
 
 
 if __name__ == "__main__":
