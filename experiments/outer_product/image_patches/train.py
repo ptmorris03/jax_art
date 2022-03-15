@@ -144,11 +144,12 @@ def train(
         preds = forward_fn(params, inputs)
         return jaks.utils.accuracy(preds, labels).mean()
 
-    losses = [0]
-    accs = [0]
+    losses = []
+    accs = []
     for epoch in range(epochs):
         pbar = tqdm(train_data(), F"epoch {epoch} train", leave=False)
         loss = 0
+        losses.append(loss)
         for i, (x, y) in enumerate(pbar):
             x = jnp.asarray(x).reshape(x.shape[0], -1)
             y = jnp.asarray(y).reshape(-1)
@@ -160,6 +161,7 @@ def train(
 
         pbar = tqdm(test_data(), F"epoch {epoch} test", leave=False)
         acc = 0
+        accs.append(acc)
         for i, (x, y) in enumerate(pbar):
             x = jnp.asarray(x).reshape(x.shape[0], -1)
             y = jnp.asarray(y).reshape(-1)
@@ -167,9 +169,8 @@ def train(
             accs[epoch] = 100 * acc / (i + 1)
             desc = F"epoch {epoch} test acc: {accs[epoch]:.02f}%"
             pbar.set_description(desc)
-
-        if epoch == epochs - 1:
-            return train_loss, test_acc
+            
+    return losses, accs
 
 
 
