@@ -1,7 +1,12 @@
 #FROM nvidia/cuda:11.4.1-cudnn8-runtime-ubuntu20.04
-FROM nvidia/cuda:11.6.0-runtime-ubuntu20.04
+FROM nvidia/cuda:11.6.0-devel-ubuntu20.04
 
-ENV JAXLIB_VERSION=0.3.0
+# declare the image name
+ENV IMG_NAME=11.6.0-devel-ubuntu20.04 \
+    # declare what jaxlib tag to use
+    # if a CI/CD system is expected to pass in these arguments
+    # the dockerfile should be modified accordingly
+    JAXLIB_VERSION=0.3.0
 
 RUN apt update && apt install python3-pip git -y
 
