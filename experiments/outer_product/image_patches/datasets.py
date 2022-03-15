@@ -10,7 +10,6 @@ import numpy as np
 
 
 _DATA = "/tmp/jax_example_data/"
-Path(_DATA).mkdir(parents=True, exist_ok=True)
 
 
 def _download(url, filename):
