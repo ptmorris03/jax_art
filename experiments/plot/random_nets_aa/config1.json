@@ -1,0 +1,14 @@
+{
+    "points": 1000,
+    "radius": 1.0,
+    "loop_steps": 100,
+    "dim": 32,
+    "hidden_scale": 4.0,
+    "random_seed": 0,
+    "histogram_bins": 1000,
+    "dot_size": 0.3,
+    "pad_fraction": 0.025,
+    "power_level": 3,
+    "colormap": "nipy_spectral",
+    "save_folder": "saves/"
+}
