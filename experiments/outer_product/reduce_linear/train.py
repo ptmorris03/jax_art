@@ -126,15 +126,15 @@ def load_dataset(batch_size: int):
 def plot_compare(loss1, acc1, loss2, acc2, res=1440, dpi=120, title=""):
     epochs = np.arange(1, len(loss1) + 1)
     plt.subplot(1, 2, 1)
-    plt.plot(epochs, loss1, label="Normal Patches")
-    plt.plot(epochs, loss2, label="Outer Product")
+    plt.plot(epochs, loss1, label="Normal Linear")
+    plt.plot(epochs, loss2, label="Outer Reduce Linear")
     plt.gca().set_xlabel("Epochs")
     plt.gca().set_ylabel("Loss")
     plt.legend()
 
     plt.subplot(1, 2, 2)
-    plt.plot(epochs, acc1, label="Normal Patches")
-    plt.plot(epochs, acc2, label="Outer Product")
+    plt.plot(epochs, acc1)
+    plt.plot(epochs, acc2)
     plt.gca().set_xlabel("Epochs")
     plt.gca().set_ylabel("Accuracy")
 
