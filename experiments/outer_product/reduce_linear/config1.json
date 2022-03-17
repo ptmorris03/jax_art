@@ -1,0 +1,12 @@
+{
+    "dims": 128,
+    "patches": 10,
+    "layers": 1,
+    "hidden_scale": 4,
+    "k_scale": 0.086,
+    "batch_size": 128,
+    "epochs": 10,
+    "learning_rate": 1e-1,
+    "random_seed": 0,
+    "plot_resolution": 1440
+}
