@@ -104,6 +104,7 @@ def plot_compare(loss1, acc1, loss2, acc2, res=1440, dpi=120, title=""):
     plt.plot(epochs, loss2, label="Outer Product")
     plt.gca().set_xlabel("Epochs")
     plt.gca().set_ylabel("Loss")
+    plt.legend()
 
     plt.subplot(1, 2, 2)
     plt.plot(epochs, acc1, label="Normal Patches")
