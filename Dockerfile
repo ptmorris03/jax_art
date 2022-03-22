@@ -10,7 +10,7 @@ ENV IMG_NAME=11.6.0-devel-ubuntu20.04 \
 
 RUN apt update && apt install python3-pip git -y
 
-RUN pip3 install git+https://github.com/ptmorris03/jax_workbench.git
+RUN pip3 install git+https://github.com/ptmorris03/jaks.git
 RUN pip3 install jaxlib==${JAXLIB_VERSION}+cuda11.cudnn82 -f https://storage.googleapis.com/jax-releases/jax_releases.html jax[cuda11_cudnn82] -f https://storage.googleapis.com/jax-releases/jax_releases.html
 
 WORKDIR /home
