@@ -20,7 +20,7 @@ import jaks.modules as nn
 from pathlib import Path
 
 import matplotlib.pyplot as plt
-from einops import rearrange
+from einops import rearrange, reduce
 import optax
 
 from dataclasses import dataclass
