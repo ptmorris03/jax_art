@@ -263,7 +263,7 @@ def train(
         params = optax.apply_updates(params, updates)
         return loss, params, opt_state, grad_norm(grads)
 
-    @partial(jax.pmap, in_axes=(None, 0, 0), out_axes=(None,))
+    @partial(jax.pmap, in_axes=(None, 0, 0), out_axes=None)
     @jax.jit
     def test_step(params, inputs, labels):
         preds = forward_fn(params, inputs)
