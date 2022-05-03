@@ -268,7 +268,7 @@ def train(
 
     opt_state = opt.init(params)
     for epoch in range(1, epochs + 1):
-        pbar = tqdm(train_data, F"epoch {epoch} train")
+        pbar = tqdm(train_data(), F"epoch {epoch} train")
         loss = 0
         for i, (x, y) in enumerate(pbar):
             x = jnp.asarray(x).reshape(x.shape[0], 1, 28, 28)
@@ -280,7 +280,7 @@ def train(
             loss += _loss
             pbar.set_description(F"epoch {epoch} train_loss: {loss/(i+1):.06f} grad_norm: {gn:.06f}")
         
-        pbar = tqdm(test_data, F"epoch {epoch} test")
+        pbar = tqdm(test_data(), F"epoch {epoch} test")
         acc = 0
         for i, (x, y) in enumerate(pbar):
             x = jnp.asarray(x).reshape(x.shape[0], 1, 28, 28)
