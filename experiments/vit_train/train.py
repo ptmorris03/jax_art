@@ -298,7 +298,7 @@ def run(config: Path):
     cfg = json.load(config.open('r'))
 
     data = load_dataset(cfg["batch_size"])
-    loss1, acc1 = train(
+    train(
         data, 
         cfg["layers"],
         cfg["dims"],
