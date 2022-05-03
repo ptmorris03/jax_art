@@ -254,13 +254,16 @@ def train(
         grad_arrays, _ = jax.tree_flatten(grads)
         return jnp.linalg.norm(jnp.concatenate(grad_arrays))
 
+    @partial(jax.pmap, axis_name="device_batch", in_axes=(None, 0, 0, None), out_axes=(None, None, None, None))
     @jax.jit
     def train_step(params, inputs, labels, opt_state):
         loss, grads = jax.value_and_grad(loss_fn)(params, inputs, labels)
         updates, opt_state = opt.update(grads, opt_state, params)
+        updates = jax.lax.pmean(updates, 'device_batch')
         params = optax.apply_updates(params, updates)
         return loss, params, opt_state, grad_norm(grads)
 
+    @partial(jax.pmap, in_axes=(None, 0, 0), out_axes=(None,))
     @jax.jit
     def test_step(params, inputs, labels):
         preds = forward_fn(params, inputs)
@@ -271,11 +274,11 @@ def train(
         pbar = tqdm(train_data(), F"epoch {epoch} train")
         loss = 0
         for i, (x, y) in enumerate(pbar):
-            x = jnp.asarray(x).reshape(x.shape[0], 1, 28, 28)
+            x = jnp.asarray(x).reshape(2, x.shape[0] // 2, 1, 28, 28)
             sign = np.random.choice((-1, 1))
             a = np.random.rand()
             x = a * x + (1 - a) * np.roll(x, (sign, sign), axis=(-1, -2))
-            y = jnp.asarray(y).reshape(-1)
+            y = jnp.asarray(y).reshape(2, -1)
             _loss, params, opt_state, gn = train_step(params, x, y, opt_state)
             loss += _loss
             pbar.set_description(F"epoch {epoch} train_loss: {loss/(i+1):.06f} grad_norm: {gn:.06f}")
