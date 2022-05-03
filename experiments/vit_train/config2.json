@@ -1,0 +1,12 @@
+{
+    "layers" : 32,
+    "dims" : 16,
+    "heads" :  4,
+    "patch_size" :  4,
+    "seed" : 4,
+    "batch_size" :  128,
+    "accum_steps" :  1,
+    "learning_rate" :  1e-2,
+    "w_decay" : 5e-4,
+    "epochs" : 100
+}
