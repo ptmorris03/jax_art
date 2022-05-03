@@ -258,8 +258,8 @@ def train(
     @jax.jit
     def train_step(params, inputs, labels, opt_state):
         loss, grads = jax.value_and_grad(loss_fn)(params, inputs, labels)
+        grads = jax.lax.pmean(grads, 'device_batch')
         updates, opt_state = opt.update(grads, opt_state, params)
-        updates = jax.lax.pmean(updates, 'device_batch')
         params = optax.apply_updates(params, updates)
         return loss, params, opt_state, grad_norm(grads)
 
