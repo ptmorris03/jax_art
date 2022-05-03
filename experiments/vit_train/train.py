@@ -219,7 +219,6 @@ def save(path, params, step):
 
 
 def train(
-    data,
     layers = 6,
     dims = 16,
     heads =  4,
@@ -297,9 +296,7 @@ app = typer.Typer()
 def run(config: Path):
     cfg = json.load(config.open('r'))
 
-    data = load_dataset(cfg["batch_size"])
     train(
-        data, 
         cfg["layers"],
         cfg["dims"],
         cfg["heads"],
