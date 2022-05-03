@@ -32,6 +32,7 @@ from matplotlib import font_manager
 from matplotlib.colors import rgb_to_hsv, hsv_to_rgb
 from imageio import imwrite
 
+from math import sqrt
 from dataclasses import dataclass
 import json
 from pathlib import Path
