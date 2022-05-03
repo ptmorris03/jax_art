@@ -25,7 +25,7 @@ from einops import rearrange
 from dataclasses import dataclass
 from collections import OrderedDict
 from functools import partial
-from typing import Iterable, Optional, Union, Tuple
+from typing import Iterable, Optional, Union, Tuple, Callable
 
 from sklearn.decomposition import PCA
 from matplotlib import font_manager
