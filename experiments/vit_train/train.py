@@ -237,7 +237,7 @@ def train(
     key, params = vit.init(seed, params={})
     forward_fn = vit.compile(batch=False)
 
-    train_data, test_data = load_dataset(batch_size)
+    (train_data, test_data) = load_dataset(batch_size)
 
     opt = optax.chain(
         optax.clip_by_global_norm(1.0),
