@@ -21,6 +21,7 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 from einops import rearrange
+import optax
 
 from dataclasses import dataclass
 from collections import OrderedDict
