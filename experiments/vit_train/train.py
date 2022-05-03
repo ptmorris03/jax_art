@@ -286,8 +286,8 @@ def train(
         pbar = tqdm(test_data(), F"epoch {epoch} test")
         acc = 0
         for i, (x, y) in enumerate(pbar):
-            x = jnp.asarray(x).reshape(x.shape[0], 1, 28, 28)
-            y = jnp.asarray(y).reshape(-1)
+            x = jnp.asarray(x).reshape(2, x.shape[0] // 2, 1, 28, 28)
+            y = jnp.asarray(y).reshape(2, -1)
             acc += test_step(params, x, y)
             pbar.set_description(F"epoch {epoch} test_acc: {100*acc/(i+1):.02f}%")
 
