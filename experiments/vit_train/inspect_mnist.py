@@ -232,9 +232,12 @@ def run(weights: Path = "./"):
     midpoint_img = (zero_img + one_img) / 2
     radius_img = np.minimum(np.abs(midpoint_img - zero_img), np.abs(midpoint_img - one_img))
 
-    ball_imgs = midpoint_img + np.random.uniform(-1, 1, size=(100000, 784)) * radius_img
+    ball_imgs = midpoint_img + np.random.uniform(-1, 1, size=(1000000, 784)) * radius_img
 
-    cls_idxs = forward_fn(params, ball_imgs.reshape(-1, 1, 28, 28)).argmax(axis=-1)
+    cls_idxs = np.zeros(1000000, dtype=np.int)
+    for batch_idx in range(0, ball_imgs.shape[0], 100000):
+        ball_batch = ball_imgs[batch_idx:batch_idx+100000]
+        cls_idxs[batch_idx:batch_idx+100000] = forward_fn(params, ball_batch.reshape(-1, 1, 28, 28)).argmax(axis=-1)
     ball_zero = cls_idxs == 0
     ball_one = cls_idxs == 1
     ball_other = cls_idxs >= 2
@@ -254,7 +257,7 @@ def run(weights: Path = "./"):
 
     fig.savefig('figure.png')
 
-    pca = PCA(2).fit(ball_imgs)
+    pca = PCA(2).fit(ball_imgs[:100000])
     ball_proj = pca.transform(ball_imgs)
     zero_proj = pca.transform(zero_img.reshape(1, -1))
     one_proj = pca.transform(one_img.reshape(1, -1))
@@ -262,7 +265,7 @@ def run(weights: Path = "./"):
     
     fig = plt.figure()
     ax = fig.add_subplot(1,1,1)
-    ax.scatter(ball_proj[ball_one,0], ball_proj[ball_one,1], color='red', s=1, label="one")
+    ax.scatter(ball_proj[ball_one,0], ball_proj[ball_one,1], color='red', s=.1, label="one")
     ax.scatter(ball_proj[ball_zero,0], ball_proj[ball_zero,1], color='blue', s=1, label="zero")
     ax.scatter(ball_proj[ball_other,0], ball_proj[ball_other,1], color='green', s=10, label="other")
     ax.scatter(zero_proj[:,0], zero_proj[:,1], color='blue')
