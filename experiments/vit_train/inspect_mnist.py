@@ -249,6 +249,20 @@ def run(weights: Path = "./"):
 
     fig.savefig('figure.png')
 
+    pca = PCA(2).fit(ball_imgs)
+    ball_proj = pca.transform(ball_imgs)
+    zero_proj = pca.transform(zero_img)
+    one_proj = pca.transform(one_img)
+    midpoint_proj = pca.transform(midpoint_img)
+    
+    fig = plt.figure()
+    ax = fig.add_subplot(1,1,1)
+    ax.scatter(ball_proj[:,0], ball_proj[:,1])
+    ax.scatter(zero_proj[0], zero_proj[1], color='blue')
+    ax.scatter(one_proj[0], one_proj[1], color='red')
+    ax.scatter(midpoint_proj[0], midpoint_proj[1], color='green')
+    fig.savefig('scatter.png')
+
 
 
 if __name__ == "__main__":
