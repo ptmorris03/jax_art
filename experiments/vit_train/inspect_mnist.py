@@ -234,7 +234,7 @@ def run(weights: Path = "./"):
 
     batch_n = 100000
     n_batch = 10
-    r = 0.5
+    r = 1
 
     ball_imgs = midpoint_img + np.random.uniform(-r, r, size=(batch_n * n_batch, 784)) * radius_img
 
