@@ -232,7 +232,7 @@ def run(weights: Path = "./"):
     midpoint_img = (zero_img + one_img) / 2
     radius_img = np.minimum(np.abs(midpoint_img - zero_img), np.abs(midpoint_img - one_img))
 
-    ball_imgs = midpoint_img + np.random.uniform(-1, 1, size=(1000000, 784)) * radius_img
+    ball_imgs = midpoint_img + np.random.uniform(-1, 1, size=(100000, 784)) * radius_img
 
     cls_idxs = forward_fn(params, ball_imgs.reshape(-1, 1, 28, 28)).argmax(axis=-1)
     ball_zero = cls_idxs == 0
