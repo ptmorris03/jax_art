@@ -234,7 +234,10 @@ def run(weights: Path = "./"):
 
     ball_imgs = midpoint_img + np.random.uniform(-1, 1, size=(10, 784)) * radius_img
 
-    print(forward_fn(params, ball_imgs.reshape(-1, 1, 28, 28)).argmax(axis=-1))
+    cls_idxs = forward_fn(params, ball_imgs.reshape(-1, 1, 28, 28)).argmax(axis=-1)
+    ball_zero = cls_idxs == 0
+    ball_one = cls_idxs == 1
+    ball_other = cls_idxs >= 2
     
     fig = plt.figure()
     ax = fig.add_subplot(2,2,1)
@@ -259,7 +262,9 @@ def run(weights: Path = "./"):
     
     fig = plt.figure()
     ax = fig.add_subplot(1,1,1)
-    ax.scatter(ball_proj[:,0], ball_proj[:,1], s=1)
+    ax.scatter(ball_proj[ball_zero,0], ball_proj[ball_zero,1], color='blue', s=1)
+    ax.scatter(ball_proj[ball_one,0], ball_proj[ball_one,1], color='red', s=1)
+    ax.scatter(ball_proj[ball_other,0], ball_proj[ball_other,1], color='orange', s=2)
     ax.scatter(zero_proj[:,0], zero_proj[:,1], color='blue')
     ax.scatter(one_proj[:,0], one_proj[:,1], color='red')
     ax.scatter(midpoint_proj[:,0], midpoint_proj[:,1], color='green')
