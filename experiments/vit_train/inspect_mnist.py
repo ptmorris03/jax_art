@@ -269,7 +269,7 @@ def run(weights: Path = "./"):
     ax.scatter(ball_proj[ball_zero,0], ball_proj[ball_zero,1], color='blue', s=1, label="zero")
     ax.scatter(ball_proj[ball_other,0], ball_proj[ball_other,1], color='green', s=10, label="other")
     ax.scatter(zero_proj[:,0], zero_proj[:,1], color='cyan')
-    ax.scatter(one_proj[:,0], one_proj[:,1], color='salmon')
+    ax.scatter(one_proj[:,0], one_proj[:,1], color='maroon')
     ax.scatter(midpoint_proj[:,0], midpoint_proj[:,1], color='black', label="midpoint")
     plt.legend()
     plt.gcf().set_size_inches(20, 20)
