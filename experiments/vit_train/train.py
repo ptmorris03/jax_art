@@ -211,14 +211,15 @@ def load_dataset(batch_size: int):
     return train_data, test_data
 
 
-def save(path, params, step):
+def save(path, params, name="weights"):
     path = Path(path)
     path.mkdir(parents=True, exist_ok=True)
-    with Path(path, F"weights_{step:06}.pickle").open('wb') as f:
+    with Path(path, F"{name}.pickle").open('wb') as f:
         pickle.dump(params, f)
 
 
 def train(
+    cfg,
     layers = 6,
     dims = 16,
     heads =  4,
@@ -229,7 +230,8 @@ def train(
     learning_rate =  1e-2,
     w_decay = 5e-4,
     epochs = 100,
-    jitter_input = False
+    jitter_input = False,
+    save_path = "./"
     ):
 
 
@@ -293,6 +295,8 @@ def train(
             acc += test_step(params, x, y)
             pbar.set_description(F"epoch {epoch} test_acc: {100*acc/(i+1):.02f}%")
 
+    save(save_path, {"params": params, "config": cfg})
+
 
 app = typer.Typer()
 
@@ -302,6 +306,7 @@ def run(config: Path):
     cfg = json.load(config.open('r'))
 
     train(
+        cfg,
         cfg["layers"],
         cfg["dims"],
         cfg["heads"],
@@ -312,7 +317,8 @@ def run(config: Path):
         cfg["learning_rate"],
         cfg["w_decay"],
         cfg["epochs"],
-        cfg["jitter_input"]
+        cfg["jitter_input"],
+        cfg["save_path"]
     )
 
 
