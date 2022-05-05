@@ -232,7 +232,7 @@ def run(weights: Path = "./"):
     midpoint_img = (zero_img + one_img) / 2
     radius_img = np.minimum(np.abs(midpoint_img - zero_img), np.abs(midpoint_img - one_img))
 
-    ball_imgs = np.random.uniform(-1, 1, size=(100, 784)) * radius_img
+    ball_imgs = midpoint_img + np.random.uniform(-1, 1, size=(100, 784)) * radius_img
     
     fig = plt.figure()
     ax = fig.add_subplot(2,2,1)
