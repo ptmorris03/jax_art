@@ -220,7 +220,10 @@ def run(weights: Path = "./"):
     forward_fn = vit.compile(batch=False)
 
     X, Y, X_test, Y_test = load_dataset()
-    print(np.where(Y==0))
+    zero_idxs = np.where(Y==0)[0]
+    one_idxs = np.where(Y==1)[0]
+    print(np.linalg.norm(X[zero_idxs] - np.expand_dims(X[one_idxs], -1)).shape)
+
 
 
 if __name__ == "__main__":
