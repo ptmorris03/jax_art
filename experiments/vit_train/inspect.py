@@ -11,8 +11,6 @@ from tqdm import tqdm
 import typer
 
 import numpy as np
-import jax
-import jax.numpy as jnp
 from jax.nn.initializers import variance_scaling
 import jaks
 import jaks.modules as nn
