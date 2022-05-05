@@ -226,7 +226,7 @@ def run(weights: Path = "./"):
     dists = cdist(X[zero_idxs], X[one_idxs])
     idxs = np.where(dists==np.sort(dists.reshape(-1))[2])
     print(idxs)
-    zero_img, one_img = X[idxs[0][0]], X[idxs[1][0]]
+    zero_img, one_img = X[zero_idxs[idxs[0][0]]], X[one_idxs[idxs[1][0]]]
     
     fig = plt.figure()
     ax1 = fig.add_subplot(2,1,1)
