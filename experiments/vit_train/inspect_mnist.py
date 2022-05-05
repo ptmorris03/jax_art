@@ -234,7 +234,7 @@ def run(weights: Path = "./"):
 
     ball_imgs = midpoint_img + np.random.uniform(-1, 1, size=(1000000, 784)) * radius_img
 
-    cls_idxs = np.zeros(1000000, dtype=np.int)
+    cls_idxs = np.zeros(1000000, dtype=int)
     for batch_idx in range(0, ball_imgs.shape[0], 100000):
         ball_batch = ball_imgs[batch_idx:batch_idx+100000]
         cls_idxs[batch_idx:batch_idx+100000] = forward_fn(params, ball_batch.reshape(-1, 1, 28, 28)).argmax(axis=-1)
@@ -268,8 +268,8 @@ def run(weights: Path = "./"):
     ax.scatter(ball_proj[ball_one,0], ball_proj[ball_one,1], color='red', s=.1, label="one")
     ax.scatter(ball_proj[ball_zero,0], ball_proj[ball_zero,1], color='blue', s=1, label="zero")
     ax.scatter(ball_proj[ball_other,0], ball_proj[ball_other,1], color='green', s=10, label="other")
-    ax.scatter(zero_proj[:,0], zero_proj[:,1], color='blue')
-    ax.scatter(one_proj[:,0], one_proj[:,1], color='red')
+    ax.scatter(zero_proj[:,0], zero_proj[:,1], color='cyan')
+    ax.scatter(one_proj[:,0], one_proj[:,1], color='salmon')
     ax.scatter(midpoint_proj[:,0], midpoint_proj[:,1], color='black', label="midpoint")
     plt.legend()
     plt.gcf().set_size_inches(20, 20)
