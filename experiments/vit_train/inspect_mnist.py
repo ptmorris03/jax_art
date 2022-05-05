@@ -220,7 +220,7 @@ def run(weights: Path = "./"):
     forward_fn = vit.compile(batch=False)
 
     X, Y, X_test, Y_test = load_dataset()
-    print(X.shape)
+    print(np.where(Y==0))
 
 
 if __name__ == "__main__":
