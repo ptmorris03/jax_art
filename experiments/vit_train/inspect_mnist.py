@@ -223,7 +223,7 @@ def run(weights: Path = "./"):
     X, Y, X_test, Y_test = load_dataset()
     zero_idxs = np.where(Y==0)[0]
     one_idxs = np.where(Y==1)[0]
-    print(cdist(X[zero_idxs], X[one_idxs]).shape)
+    print(cdist(X[zero_idxs], X[one_idxs]).shape, len(zero_idxs))
 
 
 
