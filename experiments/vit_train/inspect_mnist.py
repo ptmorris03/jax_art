@@ -233,7 +233,7 @@ def run(weights: Path = "./"):
     radius_img = np.minimum(np.abs(midpoint_img - zero_img), np.abs(midpoint_img - one_img))
 
     batch_n = 100000
-    n_batch = 1
+    n_batch = 10
 
     ball_imgs = midpoint_img + np.random.uniform(-1, 1, size=(batch_n * n_batch, 784)) * radius_img
 
@@ -269,8 +269,8 @@ def run(weights: Path = "./"):
     
     fig = plt.figure()
     ax = fig.add_subplot(1,1,1)
-    ax.scatter(ball_proj[ball_one,0], ball_proj[ball_one,1], color='red', s=.1, label="one")
-    ax.scatter(ball_proj[ball_zero,0], ball_proj[ball_zero,1], color='blue', s=1, label="zero")
+    ax.scatter(ball_proj[ball_one,0], ball_proj[ball_one,1], color='red', s=.01, label="one")
+    ax.scatter(ball_proj[ball_zero,0], ball_proj[ball_zero,1], color='blue', s=.1, label="zero")
     ax.scatter(ball_proj[ball_other,0], ball_proj[ball_other,1], color='green', s=10, label="other")
     ax.scatter(zero_proj[:,0], zero_proj[:,1], color='cyan', s=100, label='Actual Zero')
     ax.scatter(one_proj[:,0], one_proj[:,1], color='maroon', s=100, label='Actual One')
