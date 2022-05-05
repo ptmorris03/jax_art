@@ -224,7 +224,7 @@ def run(weights: Path = "./"):
     zero_idxs, one_idxs = np.where(Y==0)[0], np.where(Y==1)[0]
     print(zero_idxs.shape, one_idxs.shape, X.shape)
     dists = cdist(X[zero_idxs], X[one_idxs])
-    idxs = np.where(dists==np.sort(dists.reshape(-1))[2])
+    idxs = np.where(dists==dists.min())
     print(idxs)
     zero_img, one_img = X[zero_idxs[idxs[0][0]]], X[one_idxs[idxs[1][0]]]
     
