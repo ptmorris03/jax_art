@@ -231,13 +231,13 @@ def run(weights: Path = "./"):
     midpoint_img = (zero_img + one_img) / 2
     
     fig = plt.figure()
-    ax = fig.add_subplot(3,1,1)
+    ax = fig.add_subplot(1,3,1)
     ax.imshow(zero_img.reshape(28, 28))
 
-    ax = fig.add_subplot(3,2,1)
+    ax = fig.add_subplot(1,3,2)
     ax.imshow(midpoint_img.reshape(28, 28))
 
-    ax = fig.add_subplot(3,3,1)
+    ax = fig.add_subplot(1,3,3)
     ax.imshow(one_img.reshape(28, 28))
 
     fig.savefig('figure.png')
