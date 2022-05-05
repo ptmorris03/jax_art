@@ -228,7 +228,8 @@ def train(
     accum_steps =  1,
     learning_rate =  1e-2,
     w_decay = 5e-4,
-    epochs = 100
+    epochs = 100,
+    jitter_input = False
     ):
 
 
@@ -275,9 +276,10 @@ def train(
         loss = 0
         for i, (x, y) in enumerate(pbar):
             x = jnp.asarray(x).reshape(2, x.shape[0] // 2, 1, 28, 28)
-            sign = np.random.choice((-1, 1))
-            a = np.random.rand()
-            x = a * x + (1 - a) * np.roll(x, (sign, sign), axis=(-1, -2))
+            if jitter_input:
+                sign = np.random.choice((-1, 1))
+                a = np.random.rand()
+                x = a * x + (1 - a) * np.roll(x, (sign, sign), axis=(-1, -2))
             y = jnp.asarray(y).reshape(2, -1)
             _loss, params, opt_state, gn = train_step(params, x, y, opt_state)
             loss += _loss
@@ -309,7 +311,8 @@ def run(config: Path):
         cfg["accum_steps"],
         cfg["learning_rate"],
         cfg["w_decay"],
-        cfg["epochs"]
+        cfg["epochs"],
+        cfg["jitter_input"]
     )
 
 
