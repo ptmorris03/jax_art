@@ -197,7 +197,7 @@ class ViT(nn.Module):
         yield "cls_head", nn.Vmap(Linear(self.dims, self.classes))
 
 
-def load_dataset(batch_size: int):
+def load_dataset():
     return mnist(permute_train=False)
 
 
@@ -298,7 +298,7 @@ def run(weights: Path = "./"):
     vit = ViT(cfg["layers"], cfg["dims"], cfg["heads"], 10, (cfg["patch_size"], cfg["patch_size"]), (28, 28), 1)
     forward_fn = vit.compile(batch=False)
 
-    X, Y, X_test, Y_test = load_dataset(batch_size)
+    X, Y, X_test, Y_test = load_dataset()
     print(X.shape)
 
 
