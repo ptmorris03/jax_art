@@ -232,7 +232,7 @@ def run(weights: Path = "./"):
     midpoint_img = (zero_img + one_img) / 2
     radius_img = np.minimum(np.abs(midpoint_img - zero_img), np.abs(midpoint_img - one_img))
 
-    ball_imgs = midpoint_img + np.random.uniform(-1, 1, size=(100, 784)) * radius_img
+    ball_imgs = midpoint_img + np.random.uniform(-1, 1, size=(10000, 784)) * radius_img
     
     fig = plt.figure()
     ax = fig.add_subplot(2,2,1)
@@ -257,7 +257,7 @@ def run(weights: Path = "./"):
     
     fig = plt.figure()
     ax = fig.add_subplot(1,1,1)
-    ax.scatter(ball_proj[:,0], ball_proj[:,1])
+    ax.scatter(ball_proj[:,0], ball_proj[:,1], s=1)
     ax.scatter(zero_proj[:,0], zero_proj[:,1], color='blue')
     ax.scatter(one_proj[:,0], one_proj[:,1], color='red')
     ax.scatter(midpoint_proj[:,0], midpoint_proj[:,1], color='green')
