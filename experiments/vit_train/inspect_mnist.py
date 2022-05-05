@@ -221,12 +221,19 @@ def run(weights: Path = "./"):
     forward_fn = vit.compile(batch=False)
 
     X, Y, X_test, Y_test = load_dataset()
-    zero_idxs = np.where(Y==0)[0]
-    one_idxs = np.where(Y==1)[0]
+    zero_idxs, one_idxs = np.where(Y==0)[0], np.where(Y==1)[0]
     dists = cdist(X[zero_idxs], X[one_idxs])
-    print(dists.shape)
-    idxs = dists.argmin(keepdims=True)
-    print(np.where(dists==dists.min()))
+    idxs = np.where(dists==dists.min())
+    zero_img, one_img = X[idxs[0][0]], X[idxs[1][0]]
+    
+    fig = plt.figure()
+    ax1 = fig.add_subplot(2,1,1)
+    ax1.imshow(zero_img)
+
+    ax2 = fig.add_subplot(2,1,2)
+    ax2.imshow(one_img)
+
+    fig.savefig('figure.png')
 
 
 
