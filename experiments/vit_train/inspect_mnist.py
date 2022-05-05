@@ -260,8 +260,8 @@ def run(weights: Path = "./"):
 
     fig.savefig('figure.png')
 
-    #pca = PCA(2).fit(ball_imgs[:batch_n])
-    pca = PCA(2).fit(np.stack([zero_img, midpoint_img, one_img]))
+    pca = PCA(2).fit(ball_imgs[:batch_n])
+    #pca = PCA(2).fit(np.stack([zero_img, midpoint_img, one_img]))
     ball_proj = pca.transform(ball_imgs)
     zero_proj = pca.transform(zero_img.reshape(1, -1))
     one_proj = pca.transform(one_img.reshape(1, -1))
