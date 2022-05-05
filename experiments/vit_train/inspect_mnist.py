@@ -221,6 +221,7 @@ def run(weights: Path = "./"):
     forward_fn = vit.compile(batch=False)
 
     X, Y, X_test, Y_test = load_dataset()
+
     zero_idxs, one_idxs = np.where(Y==0)[0], np.where(Y==1)[0]
     print(zero_idxs.shape, one_idxs.shape, X.shape)
     dists = cdist(X[zero_idxs], X[one_idxs])
@@ -231,13 +232,16 @@ def run(weights: Path = "./"):
     midpoint_img = (zero_img + one_img) / 2
     
     fig = plt.figure()
-    ax = fig.add_subplot(1,3,1)
+    ax = fig.add_subplot(2,2,1)
     ax.imshow(zero_img.reshape(28, 28))
 
-    ax = fig.add_subplot(1,3,2)
+    ax = fig.add_subplot(2,2,2)
     ax.imshow(midpoint_img.reshape(28, 28))
 
-    ax = fig.add_subplot(1,3,3)
+    ax = fig.add_subplot(2,2,3)
+    ax.imshow((midpoint_img - zero_img).reshape(28, 28))
+
+    ax = fig.add_subplot(2,2,4)
     ax.imshow(one_img.reshape(28, 28))
 
     fig.savefig('figure.png')
