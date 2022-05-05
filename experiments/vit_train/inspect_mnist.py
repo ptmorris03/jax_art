@@ -232,12 +232,15 @@ def run(weights: Path = "./"):
     midpoint_img = (zero_img + one_img) / 2
     radius_img = np.minimum(np.abs(midpoint_img - zero_img), np.abs(midpoint_img - one_img))
 
-    ball_imgs = midpoint_img + np.random.uniform(-1, 1, size=(1000000, 784)) * radius_img
+    batch_n = 100000
+    n_batch = 1
 
-    cls_idxs = np.zeros(1000000, dtype=int)
-    for batch_idx in range(0, ball_imgs.shape[0], 100000):
-        ball_batch = ball_imgs[batch_idx:batch_idx+100000]
-        cls_idxs[batch_idx:batch_idx+100000] = forward_fn(params, ball_batch.reshape(-1, 1, 28, 28)).argmax(axis=-1)
+    ball_imgs = midpoint_img + np.random.uniform(-1, 1, size=(batch_n * n_batch, 784)) * radius_img
+
+    cls_idxs = np.zeros(batch_n * n_batch, dtype=int)
+    for batch_idx in range(0, ball_imgs.shape[0], batch_n):
+        ball_batch = ball_imgs[batch_idx:batch_idx+batch_n]
+        cls_idxs[batch_idx:batch_idx+batch_n] = forward_fn(params, ball_batch.reshape(-1, 1, 28, 28)).argmax(axis=-1)
     ball_zero = cls_idxs == 0
     ball_one = cls_idxs == 1
     ball_other = cls_idxs >= 2
@@ -257,7 +260,7 @@ def run(weights: Path = "./"):
 
     fig.savefig('figure.png')
 
-    #pca = PCA(2).fit(ball_imgs[:100000])
+    #pca = PCA(2).fit(ball_imgs[:batch_n])
     pca = PCA(2).fit(np.stack([zero_img, midpoint_img, one_img]))
     ball_proj = pca.transform(ball_imgs)
     zero_proj = pca.transform(zero_img.reshape(1, -1))
