@@ -226,7 +226,7 @@ def run(weights: Path = "./"):
     dists = cdist(X[zero_idxs], X[one_idxs])
     print(dists.shape)
     idxs = dists.argmin(keepdims=True)
-    print(dists)
+    print(dists.min())
 
 
 
