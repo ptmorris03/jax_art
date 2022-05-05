@@ -204,7 +204,7 @@ def load_dataset(batch_size: int):
 def load(path, name="weights"):
     path = Path(path)
     with Path(path, F"{name}.pickle").open('rb') as f:
-        params = pickle.load()
+        params = pickle.load(f)
         return params["params"], params["config"]
 
 
