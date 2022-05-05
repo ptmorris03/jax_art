@@ -26,6 +26,7 @@ from collections import OrderedDict
 from functools import partial
 from typing import Iterable, Optional, Union, Tuple, Callable
 
+from scipy.spatial.distance import cdist
 from sklearn.decomposition import PCA
 from matplotlib import font_manager
 from matplotlib.colors import rgb_to_hsv, hsv_to_rgb
@@ -222,7 +223,7 @@ def run(weights: Path = "./"):
     X, Y, X_test, Y_test = load_dataset()
     zero_idxs = np.where(Y==0)[0]
     one_idxs = np.where(Y==1)[0]
-    print(np.linalg.norm(X[zero_idxs] - np.expand_dims(X[one_idxs], -1)).shape)
+    print(cdist(X[zero_idxs], X[one_idxs]).shape)
 
 
 
