@@ -230,6 +230,7 @@ def run(weights: Path = "./"):
     zero_img, one_img = X[zero_idxs[idxs[0][0]]], X[one_idxs[idxs[1][0]]]
 
     midpoint_img = (zero_img + one_img) / 2
+    radius_img = np.minimum(np.abs(midpoint_img - zero_img), np.abs(midpoint_img - one_img))
     
     fig = plt.figure()
     ax = fig.add_subplot(2,2,1)
@@ -239,7 +240,7 @@ def run(weights: Path = "./"):
     ax.imshow(midpoint_img.reshape(28, 28))
 
     ax = fig.add_subplot(2,2,3)
-    ax.imshow((midpoint_img - zero_img).reshape(28, 28))
+    ax.imshow(radius_img.reshape(28, 28))
 
     ax = fig.add_subplot(2,2,4)
     ax.imshow(one_img.reshape(28, 28))
