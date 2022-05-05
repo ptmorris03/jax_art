@@ -228,10 +228,10 @@ def run(weights: Path = "./"):
     
     fig = plt.figure()
     ax1 = fig.add_subplot(2,1,1)
-    ax1.imshow(zero_img)
+    ax1.imshow(zero_img.reshape(28, 28))
 
     ax2 = fig.add_subplot(2,1,2)
-    ax2.imshow(one_img)
+    ax2.imshow(one_img.reshape(28, 28))
 
     fig.savefig('figure.png')
 
