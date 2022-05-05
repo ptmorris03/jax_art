@@ -223,7 +223,7 @@ def run(weights: Path = "./"):
     X, Y, X_test, Y_test = load_dataset()
     zero_idxs, one_idxs = np.where(Y==0)[0], np.where(Y==1)[0]
     dists = cdist(X[zero_idxs], X[one_idxs])
-    idxs = np.where(dists==dists.min())
+    idxs = np.where(dists==np.sort(dists.reshape(-1))[1])
     zero_img, one_img = X[idxs[0][0]], X[idxs[1][0]]
     
     fig = plt.figure()
