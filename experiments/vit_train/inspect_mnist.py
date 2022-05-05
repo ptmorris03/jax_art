@@ -234,7 +234,7 @@ def run(weights: Path = "./"):
 
     ball_imgs = midpoint_img + np.random.uniform(-1, 1, size=(100, 784)) * radius_img
 
-    print(forward_fn(ball_imgs).shape)
+    print(forward_fn(params, ball_imgs).shape)
     
     fig = plt.figure()
     ax = fig.add_subplot(2,2,1)
