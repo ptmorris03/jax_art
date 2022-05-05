@@ -227,13 +227,18 @@ def run(weights: Path = "./"):
     idxs = np.where(dists==dists.min())
     print(idxs)
     zero_img, one_img = X[zero_idxs[idxs[0][0]]], X[one_idxs[idxs[1][0]]]
+
+    midpoint_img = (zero_img + one_img) / 2
     
     fig = plt.figure()
-    ax1 = fig.add_subplot(2,1,1)
-    ax1.imshow(zero_img.reshape(28, 28))
+    ax = fig.add_subplot(3,1,1)
+    ax.imshow(zero_img.reshape(28, 28))
 
-    ax2 = fig.add_subplot(2,1,2)
-    ax2.imshow(one_img.reshape(28, 28))
+    ax = fig.add_subplot(3,2,1)
+    ax.imshow(midpoint_img.reshape(28, 28))
+
+    ax = fig.add_subplot(3,3,1)
+    ax.imshow(one_img.reshape(28, 28))
 
     fig.savefig('figure.png')
 
