@@ -198,6 +198,35 @@ class ViT(nn.Module):
         yield "cls_head", nn.Vmap(Linear(self.dims, self.classes))
 
 
+@dataclass
+class ViTHidden(nn.Module):
+    layers: int
+    dims: int
+    heads: int
+    classes: int
+    patch_shape: Tuple[int]
+    image_shape: Tuple[int]
+    image_channels: int
+
+    def modules(self):
+        yield "patches", Patches(self.dims, self.image_channels, self.patch_shape, self.image_shape)
+        for i in range(self.layers):
+            yield F"encoder{i+1}", nn.Vmap(EncoderBlock(self.dims, self.heads))
+        yield "pool_patches", nn.Vmap(PoolPatches())
+        yield "cls_head", nn.Vmap(Linear(self.dims, self.classes))
+
+    def forward(self, params, x):
+        x = self.patches(params, x)
+        hs = jnp.zeros((self.layers, *x.shape))
+        hs = hs.at[0].set(x)
+        for i in range(self.layers):
+            layer = getattr(self, F"encoder{i+1}")
+            x = layer(params, x)
+            hs = hs.at[i+1].set(x)
+        x = self.pool_patches(params, x)
+        return self.cls_head(params, x), hs
+
+
 def load_dataset():
     return mnist(permute_train=False)
 
@@ -217,7 +246,7 @@ def run(weights: Path = "./"):
     
 
     params, cfg = load(weights)
-    vit = ViT(cfg["layers"], cfg["dims"], cfg["heads"], 10, (cfg["patch_size"], cfg["patch_size"]), (28, 28), 1)
+    vit = ViTHidden(cfg["layers"], cfg["dims"], cfg["heads"], 10, (cfg["patch_size"], cfg["patch_size"]), (28, 28), 1)
     forward_fn = vit.compile(batch=False)
 
     X, Y, X_test, Y_test = load_dataset()
@@ -244,7 +273,8 @@ def run(weights: Path = "./"):
     cls_idxs = np.zeros(batch_n * n_batch, dtype=int)
     for batch_idx in range(0, ball_imgs.shape[0], batch_n):
         ball_batch = ball_imgs[batch_idx:batch_idx+batch_n]
-        cls_idxs[batch_idx:batch_idx+batch_n] = forward_fn(params, ball_batch.reshape(-1, 1, 28, 28)).argmax(axis=-1)
+        cls_idxs[batch_idx:batch_idx+batch_n], hs = forward_fn(params, ball_batch.reshape(-1, 1, 28, 28)).argmax(axis=-1)
+        print(hs.shape)
     ball_zero = cls_idxs == 0
     ball_one = cls_idxs == 1
     ball_other = cls_idxs >= 2
