@@ -261,8 +261,8 @@ def run(weights: Path = "./"):
     midpoint_img = (zero_img + one_img) / 2
     radius_img = np.minimum(np.abs(midpoint_img - zero_img), np.abs(midpoint_img - one_img))
 
-    batch_n = 100000
-    n_batch = 10
+    batch_n = 1000
+    n_batch = 1000
     r = 1
 
     ball_imgs = midpoint_img + np.random.uniform(-r, r, size=(batch_n * n_batch, 784)) * radius_img
@@ -272,15 +272,12 @@ def run(weights: Path = "./"):
     _, hiddens = forward_fn(params, np.stack([zero_img, one_img]).reshape(2, 1, 28, 28))
 
     cls_idxs = np.zeros(batch_n * n_batch, dtype=int)
-    layer_idxs = np.zeros(batch_n * n_batch, dtype=int)
-    for batch_idx in range(0, ball_imgs.shape[0], batch_n):
+    dce_idxs = np.zeros(batch_n * n_batch, dtype=int)
+    for batch_idx in tqdm(range(0, ball_imgs.shape[0], batch_n)):
         ball_batch = ball_imgs[batch_idx:batch_idx+batch_n]
         out, hs = forward_fn(params, ball_batch.reshape(-1, 1, 28, 28))
         cls_idxs[batch_idx:batch_idx+batch_n] = out.argmax(axis=-1)
-        layer_idxs[batch_idx:batch_idx+batch_n] = cdist(hs, hiddens).argmax(axis=-1)
-
-    
-    dce_idxs = cdist(layer_coords, hs).argmax(axis=-1)
+        dce_idxs[batch_idx:batch_idx+batch_n] = cdist(hs, hiddens).argmax(axis=-1)
 
     ball_zero = cls_idxs == 0
     ball_one = cls_idxs == 1
