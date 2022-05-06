@@ -301,8 +301,8 @@ def run(weights: Path = "./"):
 
     fig.savefig('figure.png')
 
-    pca = PCA(2).fit(ball_imgs[:batch_n])
-    #pca = PCA(2).fit(np.stack([zero_img, midpoint_img, one_img]))
+    #pca = PCA(2).fit(ball_imgs[:batch_n])
+    pca = PCA(2).fit(np.stack([zero_img, midpoint_img, one_img]))
     ball_proj = pca.transform(ball_imgs)
     zero_proj = pca.transform(zero_img.reshape(1, -1))
     one_proj = pca.transform(one_img.reshape(1, -1))
@@ -322,8 +322,8 @@ def run(weights: Path = "./"):
 
     fig = plt.figure()
     ax = fig.add_subplot(1,1,1)
-    ax.scatter(ball_proj[dce_one,0], ball_proj[dce_one,1], color='red', s=.1, label="one")
-    ax.scatter(ball_proj[dce_zero,0], ball_proj[dce_zero,1], color='blue', s=.1, label="zero")
+    ax.scatter(ball_proj[dce_one,0], ball_proj[dce_one,1], color='red', s=.01, label="one")
+    ax.scatter(ball_proj[dce_zero,0], ball_proj[dce_zero,1], color='blue', s=.01, label="zero")
     ax.scatter(ball_proj[ball_other,0], ball_proj[ball_other,1], color='green', s=10, label="cls_other")
     ax.scatter(zero_proj[:,0], zero_proj[:,1], color='blue', s=100, label='Actual Zero')
     ax.scatter(one_proj[:,0], one_proj[:,1], color='red', s=100, label='Actual One')
