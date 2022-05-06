@@ -261,7 +261,7 @@ def run(weights: Path = "./"):
     midpoint_img = (zero_img + one_img) / 2
     radius_img = np.minimum(np.abs(midpoint_img - zero_img), np.abs(midpoint_img - one_img))
 
-    batch_n = 100000
+    batch_n = 1000
     n_batch = 10
     r = 1
 
