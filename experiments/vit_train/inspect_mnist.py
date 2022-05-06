@@ -217,14 +217,14 @@ class ViTHidden(nn.Module):
 
     def forward(self, params, x):
         x = self.patches(params, x)
-        hs = jnp.zeros((x.shape[0], self.layers))
-        hs = hs.at[:,0].set(jnp.linalg.norm(x, axis=(-2, -1)))
+        hs = jnp.zeros((x.shape[0], self.layers, *x.shape[1:]))
+        hs = hs.at[:,0].set(x)
         for i in range(self.layers):
             layer = getattr(self, F"encoder{i+1}")
             x = layer(params, x)
-            hs = hs.at[:,i+1].set(jnp.linalg.norm(x, axis=(-2, -1)))
+            hs = hs.at[:,i+1].set(x)
         x = self.pool_patches(params, x)
-        return self.cls_head(params, x), hs
+        return self.cls_head(params, x), hs.reshape(x.shape[0], -1)
 
 
 def load_dataset():
@@ -266,19 +266,20 @@ def run(weights: Path = "./"):
     r = 1
 
     ball_imgs = midpoint_img + np.random.uniform(-r, r, size=(batch_n * n_batch, 784)) * radius_img
-
     #only toward zero
     #ball_imgs = midpoint_img + np.random.uniform(0, r, size=(batch_n * n_batch, 784)) * (zero_img - midpoint_img)
 
+    _, hiddens = forward_fn(params, np.stack([zero_img, one_img]).reshape(2, 1, 28, 28))
+
     cls_idxs = np.zeros(batch_n * n_batch, dtype=int)
-    layer_coords = np.zeros((batch_n * n_batch, cfg['layers']))
+    layer_idxs = np.zeros(batch_n * n_batch, dtype=int)
     for batch_idx in range(0, ball_imgs.shape[0], batch_n):
         ball_batch = ball_imgs[batch_idx:batch_idx+batch_n]
         out, hs = forward_fn(params, ball_batch.reshape(-1, 1, 28, 28))
         cls_idxs[batch_idx:batch_idx+batch_n] = out.argmax(axis=-1)
-        layer_coords[batch_idx:batch_idx+batch_n] = hs
+        layer_idxs[batch_idx:batch_idx+batch_n] = cdist(hs, hiddens).argmax(axis=-1)
 
-    _, hs = forward_fn(params, np.stack([zero_img, one_img]).reshape(2, 1, 28, 28))
+    
     dce_idxs = cdist(layer_coords, hs).argmax(axis=-1)
 
     ball_zero = cls_idxs == 0
