@@ -279,11 +279,14 @@ def run(weights: Path = "./"):
         layer_coords[batch_idx:batch_idx+batch_n] = hs
 
     _, hs = forward_fn(params, np.stack([zero_img, one_img]).reshape(2, 1, 28, 28))
-    print(cdist(layer_coords, hs).shape)
+    dce_idxs = cdist(layer_coords, hs).argmax(axis=-1)
 
     ball_zero = cls_idxs == 0
     ball_one = cls_idxs == 1
     ball_other = cls_idxs >= 2
+
+    dce_zero = dce_idxs == 0
+    dce_one = dce_idxs == 1
     
     fig = plt.figure()
     ax = fig.add_subplot(2,2,1)
@@ -307,11 +310,23 @@ def run(weights: Path = "./"):
     one_proj = pca.transform(one_img.reshape(1, -1))
     midpoint_proj = pca.transform(midpoint_img.reshape(1, -1))
     
+    #fig = plt.figure()
+    #ax = fig.add_subplot(1,1,1)
+    #ax.scatter(ball_proj[ball_one,0], ball_proj[ball_one,1], color='red', s=.01, label="one")
+    #ax.scatter(ball_proj[ball_zero,0], ball_proj[ball_zero,1], color='blue', s=.1, label="zero")
+    #ax.scatter(ball_proj[ball_other,0], ball_proj[ball_other,1], color='green', s=10, label="other")
+    #ax.scatter(zero_proj[:,0], zero_proj[:,1], color='blue', s=100, label='Actual Zero')
+    #ax.scatter(one_proj[:,0], one_proj[:,1], color='red', s=100, label='Actual One')
+    #ax.scatter(midpoint_proj[:,0], midpoint_proj[:,1], color='black', s=100, label="Actual Midpoint")
+    #plt.legend()
+    #plt.gcf().set_size_inches(20, 20)
+    #fig.savefig('scatter.png')
+
     fig = plt.figure()
     ax = fig.add_subplot(1,1,1)
-    ax.scatter(ball_proj[ball_one,0], ball_proj[ball_one,1], color='red', s=.01, label="one")
-    ax.scatter(ball_proj[ball_zero,0], ball_proj[ball_zero,1], color='blue', s=.1, label="zero")
-    ax.scatter(ball_proj[ball_other,0], ball_proj[ball_other,1], color='green', s=10, label="other")
+    ax.scatter(ball_proj[dce_one,0], ball_proj[dce_one,1], color='red', s=.01, label="one")
+    ax.scatter(ball_proj[dce_zero,0], ball_proj[dce_zero,1], color='blue', s=.1, label="zero")
+    ax.scatter(ball_proj[ball_other,0], ball_proj[ball_other,1], color='green', s=10, label="cls_other")
     ax.scatter(zero_proj[:,0], zero_proj[:,1], color='blue', s=100, label='Actual Zero')
     ax.scatter(one_proj[:,0], one_proj[:,1], color='red', s=100, label='Actual One')
     ax.scatter(midpoint_proj[:,0], midpoint_proj[:,1], color='black', s=100, label="Actual Midpoint")
