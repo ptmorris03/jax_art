@@ -334,6 +334,11 @@ def run(weights: Path = "./"):
     fig.savefig('scatter.png')
 
 
+    #todo
+    #-each layer
+    #gen pts, find new nearest neighbors, regen between those. are there other classes in between?
+
+
 
 if __name__ == "__main__":
     app()
