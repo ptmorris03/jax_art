@@ -237,6 +237,7 @@ def run(weights: Path = "./"):
     r = 1
 
     ball_imgs = midpoint_img + np.random.uniform(-r, r, size=(batch_n * n_batch, 784)) * radius_img
+    ball_imgs[np.sign(ball_imgs) == np.sign(one_img - midpoint_img)] *= -1
 
     cls_idxs = np.zeros(batch_n * n_batch, dtype=int)
     for batch_idx in range(0, ball_imgs.shape[0], batch_n):
