@@ -261,7 +261,7 @@ def run(weights: Path = "./"):
     midpoint_img = (zero_img + one_img) / 2
     radius_img = np.minimum(np.abs(midpoint_img - zero_img), np.abs(midpoint_img - one_img))
 
-    batch_n = 1000
+    batch_n = 100000
     n_batch = 10
     r = 1
 
@@ -324,7 +324,7 @@ def run(weights: Path = "./"):
 
     fig = plt.figure()
     ax = fig.add_subplot(1,1,1)
-    ax.scatter(ball_proj[dce_one,0], ball_proj[dce_one,1], color='red', s=.01, label="one")
+    ax.scatter(ball_proj[dce_one,0], ball_proj[dce_one,1], color='red', s=.1, label="one")
     ax.scatter(ball_proj[dce_zero,0], ball_proj[dce_zero,1], color='blue', s=.1, label="zero")
     ax.scatter(ball_proj[ball_other,0], ball_proj[ball_other,1], color='green', s=10, label="cls_other")
     ax.scatter(zero_proj[:,0], zero_proj[:,1], color='blue', s=100, label='Actual Zero')
