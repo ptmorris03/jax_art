@@ -217,12 +217,12 @@ class ViTHidden(nn.Module):
 
     def forward(self, params, x):
         x = self.patches(params, x)
-        hs = jnp.zeros((x.shape[0], self.layers, *x.shape[1:]))
-        hs = hs.at[:,0].set(x)
+        hs = jnp.zeros((x.shape[0], self.layers))
+        hs = hs.at[:,0].set(jnp.linalg.norm(x, axis=(-2, -1)))
         for i in range(self.layers):
             layer = getattr(self, F"encoder{i+1}")
             x = layer(params, x)
-            hs = hs.at[:,i+1].set(x)
+            hs = hs.at[:,i+1].set(jnp.linalg.norm(x, axis=(-2, -1)))
         x = self.pool_patches(params, x)
         return self.cls_head(params, x), hs
 
