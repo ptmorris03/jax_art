@@ -273,7 +273,8 @@ def run(weights: Path = "./"):
     cls_idxs = np.zeros(batch_n * n_batch, dtype=int)
     for batch_idx in range(0, ball_imgs.shape[0], batch_n):
         ball_batch = ball_imgs[batch_idx:batch_idx+batch_n]
-        cls_idxs[batch_idx:batch_idx+batch_n], hs = forward_fn(params, ball_batch.reshape(-1, 1, 28, 28)).argmax(axis=-1)
+        out, hs = forward_fn(params, ball_batch.reshape(-1, 1, 28, 28))
+        cls_idxs[batch_idx:batch_idx+batch_n] = out.argmax(axis=-1)
         print(hs.shape)
     ball_zero = cls_idxs == 0
     ball_one = cls_idxs == 1
