@@ -278,7 +278,7 @@ def run(weights: Path = "./"):
         cls_idxs[batch_idx:batch_idx+batch_n] = out.argmax(axis=-1)
         layer_coords[batch_idx:batch_idx+batch_n] = hs
 
-    _, hs = forward_fn(params, np.stack([zero_img, one_img]))
+    _, hs = forward_fn(params, np.stack([zero_img, one_img]).reshape(2, 1, 28, 28))
     print(cdist(layer_coords, hs).shape)
 
     ball_zero = cls_idxs == 0
