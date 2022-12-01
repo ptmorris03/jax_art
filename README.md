@@ -1,4 +1,4 @@
-# jax_workbench
+# jax_art
 hey look, it works!
 
 ![](https://github.com/ptmorris03/jax_workbench/blob/main/plots/89.png?raw=true)
