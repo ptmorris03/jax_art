@@ -1,6 +1,4 @@
-# jax_art
-hey look, it works!
-
+# nn_art
 ![](https://github.com/ptmorris03/jax_workbench/blob/main/plots/89.png?raw=true)
 ![](https://github.com/ptmorris03/jax_workbench/blob/main/plots/88.png?raw=true)
 ![](https://github.com/ptmorris03/jax_workbench/blob/main/plots/66.png?raw=true)
